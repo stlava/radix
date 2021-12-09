@@ -2318,7 +2318,11 @@ func (rm *RawMessage) unmarshal(br resp.BufferedReader) error {
 	if len(b) < 3 {
 		return errors.New("malformed data read")
 	}
+
 	body := b[1 : len(b)-2]
+	if len(body) == 0 {
+		return errors.New("bad body length")
+	}
 
 	prefix := Prefix(b[0])
 	switch prefix {
